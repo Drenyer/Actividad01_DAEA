@@ -1,0 +1,7 @@
+# Archivos del sistema
+.DS_Store
+.idea/
+
+# Archivos de compilación
+/obj/
+/bin/
