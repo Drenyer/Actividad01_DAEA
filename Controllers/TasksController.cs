@@ -32,4 +32,18 @@ public class TaskController : ControllerBase
 
         return Ok(new { mensaje = $"Tarea con el id: {id} encontrado.",tarea});
     }
+    
+    [HttpPost]
+    public IActionResult CrearTarea([FromBody] Tarea nuevaTarea)
+    {
+        if (nuevaTarea == null || string.IsNullOrWhiteSpace(nuevaTarea.Titulo))
+        {
+            return BadRequest(new { mensaje = "El título de la tarea es obligatorio." });
+        }
+
+        nuevaTarea.Id = tareas.Count + 1; 
+        tareas.Add(nuevaTarea);
+
+        return CreatedAtAction(nameof(ObtenerTareasId), new { id = nuevaTarea.Id }, nuevaTarea);
+    }
 }
