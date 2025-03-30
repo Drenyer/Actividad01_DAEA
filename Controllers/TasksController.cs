@@ -46,4 +46,25 @@ public class TaskController : ControllerBase
 
         return CreatedAtAction(nameof(ObtenerTareasId), new { id = nuevaTarea.Id }, nuevaTarea);
     }
+    
+    [HttpPut("{id}")]
+    public IActionResult ActualizarTarea(int id, [FromBody] Tarea tareaActualizada)
+    {
+        var tarea = tareas.FirstOrDefault(t => t.Id == id);
+
+        if (tarea == null)
+        {
+            return NotFound(new { mensaje = $"No se encontró la tarea con ID {id}" });
+        }
+
+        if (tareaActualizada == null || string.IsNullOrWhiteSpace(tareaActualizada.Titulo))
+        {
+            return BadRequest(new { mensaje = "El título de la tarea es obligatorio." });
+        }
+
+        tarea.Titulo = tareaActualizada.Titulo;
+        tarea.Estado = tareaActualizada.Estado;
+
+        return Ok(new { mensaje = $"Tarea con ID {id} actualizada correctamente.", tarea });
+    }
 }
