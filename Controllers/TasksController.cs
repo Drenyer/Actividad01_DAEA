@@ -67,4 +67,19 @@ public class TaskController : ControllerBase
 
         return Ok(new { mensaje = $"Tarea con ID {id} actualizada correctamente.", tarea });
     }
+    
+    [HttpDelete("{id}")]
+    public IActionResult EliminarTarea(int id)
+    {
+        var tarea = tareas.FirstOrDefault(t => t.Id == id);
+
+        if (tarea == null)
+        {
+            return NotFound(new { mensaje = $"No se encontró la tarea con ID {id}" });
+        }
+
+        tareas.Remove(tarea);
+
+        return Ok(new { mensaje = $"Tarea con ID {id} eliminada correctamente." });
+    }
 }
